@@ -1,0 +1,40 @@
+package com.demo.kuangjia.web;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import cn.knet.domain.vo.common.ResultBean;
+
+/***
+ * 首页
+ * @author dcx
+ *
+ */
+@Controller
+@RequestMapping("home")
+public class HomeController {
+	@RequestMapping({"/login.shtml","/"})
+	public String index(HttpServletRequest request,HttpSession session,Model model) {
+		return "home/index";
+	}
+	@RequestMapping(value={"/userlogin.shtml"},method={RequestMethod.POST})
+	@ResponseBody
+	public ResultBean userlogin(HttpServletRequest request,HttpSession session,Model model,String username) {
+		ResultBean resultBean=new ResultBean();
+		resultBean.setFlag(true);
+		resultBean.setMsg("成功");
+		resultBean.setContext(username);
+		return resultBean;
+	}
+	@RequestMapping(value={"/userlogin.shtml"},method={RequestMethod.GET})
+	public String login(HttpServletRequest request,HttpSession session,Model model,String username) {
+		model.addAttribute("username",username);
+		return "home/welcome";
+	}
+}
